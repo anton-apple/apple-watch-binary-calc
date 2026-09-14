@@ -29,6 +29,8 @@ is shown underneath.
   is reached.
 - **The last value is persisted** and restored on the next launch.
 - **VoiceOver labels** on every control.
+- **Watch face complication** — a launcher for the circular, corner, inline and
+  rectangular slots, so the app is one tap away from the watch face.
 
 Everything is computed in `UInt64`, so whole numbers from 0 up to
 18,446,744,073,709,551,615 (64 bit). Input that would leave that range is
@@ -78,6 +80,10 @@ BinaerRechner/
     ├── ValueCard.swift              A single value field
     ├── KeypadEditorView.swift       Keypad + stepper + live preview
     └── ExplanationSection.swift     One section of the worked example
+
+BinaerRechnerComplication/          Widget extension, embedded in the app
+├── LauncherComplication.swift      Widget + timeline provider
+└── LauncherComplicationView.swift  One layout per watch face slot
 ```
 
 The core is deliberately small: there is **one** value, and the four number
@@ -85,6 +91,22 @@ systems are just different notations for it. Appending a digit is therefore
 plain `value · radix + digit`, deleting one is `value / radix`. All conversion
 logic lives in `Model/` and does not depend on SwiftUI, so it can be verified
 independently of the interface.
+
+## Watch face complication
+
+The `BinaerRechnerComplication` target is a WidgetKit extension that ships
+inside the app — it builds automatically as a dependency, there is no second
+scheme to run. It supports `accessoryCircular`, `accessoryCorner`,
+`accessoryInline` and `accessoryRectangular`.
+
+To put it on a watch face: press and hold the face → **Edit** → swipe to the
+complications page → tap a slot → pick **Zahlen**.
+
+The complication shows no live value. A widget extension runs in its own
+process with its own container, so reading the app's stored number would need
+an App Group plus the matching entitlement on both targets. Its job is to
+launch the app, and a single timeline entry with `.never` as the reload policy
+keeps it off the watch's update budget.
 
 ## Controls
 
