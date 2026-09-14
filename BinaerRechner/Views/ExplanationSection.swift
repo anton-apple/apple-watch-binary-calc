@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Ein Abschnitt des Rechenwegs, z. B. „Oktal: 17₈ = 1·8¹ + 7·8⁰ = 15₁₀“.
+/// One section of the worked example, e.g. "Oktal: 17₈ = 1·8¹ + 7·8⁰ = 15₁₀".
 struct ExplanationSection: View {
     let step: ConversionExplanation.Step
 

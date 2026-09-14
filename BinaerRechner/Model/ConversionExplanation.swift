@@ -1,25 +1,25 @@
 import Foundation
 
-/// Der Rechenweg zu einem Wert – aufgebaut wie die Erklärung der Vorlage:
-/// zuerst eine Übersicht aller Schreibweisen, danach je Zahlensystem die
-/// Summe der Stellenwerte.
+/// The worked example for a value, laid out like the explanation on the
+/// reference page: first an overview of every notation, then the sum of
+/// place values for each number system.
 struct ConversionExplanation {
-    /// Ab dieser Anzahl Summanden wird die Mitte durch „…“ ersetzt,
-    /// damit die Zeile auf der Uhr lesbar bleibt.
+    /// Above this many summands the middle is replaced by "…" so the line
+    /// stays readable on the watch.
     private static let maximumTerms = 12
 
     struct Step: Identifiable {
         let base: NumberBase
-        /// Überschrift, z. B. „Binär (4 Bit)“.
+        /// Heading, e.g. "Binär (4 Bit)".
         let title: String
-        /// Rechenweg, z. B. „17₈ = 1·8¹ + 7·8⁰ = 15₁₀“.
+        /// The worked example, e.g. "17₈ = 1·8¹ + 7·8⁰ = 15₁₀".
         let text: String
 
         var id: Int { base.rawValue }
     }
 
     let value: UInt64
-    /// z. B. „F₁₆ = 15₁₀ = 17₈ = 1111₂“.
+    /// e.g. "F₁₆ = 15₁₀ = 17₈ = 1111₂".
     let overview: String
     let steps: [Step]
 
@@ -31,7 +31,7 @@ struct ConversionExplanation {
         }
     }
 
-    /// „F₁₆ = 15₁₀ = 17₈ = 1111₂“
+    /// "F₁₆ = 15₁₀ = 17₈ = 1111₂"
     private static func makeOverview(for value: UInt64) -> String {
         [NumberBase.hexadecimal, .decimal, .octal, .binary]
             .map { notation(of: value, in: $0) }
@@ -44,13 +44,13 @@ struct ConversionExplanation {
         return "\(base.name) (\(bits) Bit)"
     }
 
-    /// „1111₂“
+    /// "1111₂"
     static func notation(of value: UInt64, in base: NumberBase) -> String {
         NumberParser.format(value, base: base) + base.subscriptLabel
     }
 
-    /// Der ausgeschriebene Stellenwert-Term, z. B.
-    /// „F₁₆ = F·16⁰ = 15₁₀·16⁰ = 15₁₀“ oder „1111₂ = 1·2³ + 1·2² + 1·2¹ + 1·2⁰ = 15₁₀“.
+    /// The place values written out, e.g.
+    /// "F₁₆ = F·16⁰ = 15₁₀·16⁰ = 15₁₀" or "1111₂ = 1·2³ + 1·2² + 1·2¹ + 1·2⁰ = 15₁₀".
     static func expansion(of value: UInt64, in base: NumberBase) -> String {
         let digits = Array(NumberParser.format(value, base: base))
         let highestExponent = digits.count - 1
@@ -72,8 +72,8 @@ struct ConversionExplanation {
         }
 
         var parts = [notation(of: value, in: base), joined(symbolicTerms)]
-        // Buchstabenziffern bekommen – wie in der Vorlage – eine Zwischenzeile
-        // mit ihrem Dezimalwert.
+        // Letter digits get an intermediate stage showing their decimal
+        // value, the same way the reference page does it.
         if hasLetterDigits {
             parts.append(joined(numericTerms))
         }

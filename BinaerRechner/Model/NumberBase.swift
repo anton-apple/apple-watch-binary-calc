@@ -1,8 +1,8 @@
 import SwiftUI
 
-/// Ein Zahlensystem, das der Rechner anzeigen und einlesen kann.
+/// A number system the calculator can display and read.
 ///
-/// Der `rawValue` ist gleichzeitig die Basis (Radix) des Zahlensystems.
+/// The `rawValue` doubles as the radix of the number system.
 enum NumberBase: Int, CaseIterable, Identifiable, Codable {
     case decimal = 10
     case binary = 2
@@ -11,15 +11,18 @@ enum NumberBase: Int, CaseIterable, Identifiable, Codable {
 
     var id: Int { rawValue }
 
-    /// Basis des Zahlensystems, z. B. 16 für Hexadezimal.
+    /// Radix of the number system, e.g. 16 for hexadecimal.
     var radix: Int { rawValue }
 
-    /// Reihenfolge der Eingabefelder – wie auf der Vorlage: Dezimal, Binär, Hexadezimal, Oktal.
+    /// Order of the input fields, matching the reference page:
+    /// decimal, binary, hexadecimal, octal.
     static let displayOrder: [NumberBase] = [.decimal, .binary, .hexadecimal, .octal]
 
-    /// Reihenfolge der Rechenwege – dort fehlt Dezimal, weil es keinen Umweg gibt.
+    /// Order of the worked examples. Decimal is missing because there is
+    /// nothing to convert.
     static let explanationOrder: [NumberBase] = [.hexadecimal, .octal, .binary]
 
+    /// Displayed name. The app's interface is German, so these stay German.
     var name: String {
         switch self {
         case .decimal: "Dezimal"
@@ -38,7 +41,8 @@ enum NumberBase: Int, CaseIterable, Identifiable, Codable {
         }
     }
 
-    /// Farbe der Vorlage: Dezimal gelb, Binär grün, Hexadezimal cyan, Oktal rosa.
+    /// Colors of the reference page: decimal yellow, binary green,
+    /// hexadecimal cyan, octal pink.
     var tint: Color {
         switch self {
         case .decimal: .yellow
@@ -48,12 +52,12 @@ enum NumberBase: Int, CaseIterable, Identifiable, Codable {
         }
     }
 
-    /// Alle in diesem Zahlensystem erlaubten Ziffern, aufsteigend.
+    /// Every digit valid in this number system, ascending.
     var digits: [Character] {
         Array("0123456789ABCDEF".prefix(radix))
     }
 
-    /// Ziffern in der Reihenfolge, in der sie auf dem Tastenfeld stehen.
+    /// Digits in the order they appear on the keypad.
     var keypadDigits: [Character] {
         switch self {
         case .decimal: Array("1234567890")
@@ -61,7 +65,7 @@ enum NumberBase: Int, CaseIterable, Identifiable, Codable {
         }
     }
 
-    /// Spaltenanzahl des Tastenfelds, damit die Ziffern eine volle Rechteckfläche ergeben.
+    /// Number of keypad columns, chosen so the digits fill complete rows.
     var keypadColumns: Int {
         switch self {
         case .binary: 2
@@ -70,7 +74,7 @@ enum NumberBase: Int, CaseIterable, Identifiable, Codable {
         }
     }
 
-    /// Ziffern werden zur besseren Lesbarkeit in Blöcke dieser Größe geteilt.
+    /// Digits are split into blocks of this size for readability.
     var groupSize: Int? {
         switch self {
         case .binary: 4
@@ -78,7 +82,7 @@ enum NumberBase: Int, CaseIterable, Identifiable, Codable {
         }
     }
 
-    /// Tiefgestellte Basis für die Schreibweise, z. B. „₁₆“.
+    /// The radix as a subscript, e.g. "₁₆".
     var subscriptLabel: String { UnicodeNotation.subscriptText(radix) }
 
     func allows(_ character: Character) -> Bool {

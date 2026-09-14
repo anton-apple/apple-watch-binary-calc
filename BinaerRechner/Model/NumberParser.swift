@@ -1,14 +1,14 @@
 import Foundation
 
-/// Wandelt Ziffernfolgen in Zahlen um und wieder zurück.
+/// Turns digit strings into numbers and back.
 ///
-/// Gerechnet wird durchgehend mit `UInt64`, also mit ganzen Zahlen von 0 bis
-/// 18.446.744.073.709.551.615 (64 Bit).
+/// Everything is computed in `UInt64`, so whole numbers from 0 up to
+/// 18,446,744,073,709,551,615 (64 bit).
 enum NumberParser {
-    /// Liest eine Ziffernfolge in der angegebenen Basis ein.
+    /// Reads a digit string in the given radix.
     ///
-    /// - Returns: Den Wert oder `nil`, wenn die Eingabe eine ungültige Ziffer
-    ///   enthält oder größer als `UInt64.max` wäre.
+    /// - Returns: The value, or `nil` if the input contains an invalid digit
+    ///   or would exceed `UInt64.max`.
     static func parse(_ text: String, base: NumberBase) -> UInt64? {
         let cleaned = text.uppercased().filter { !$0.isWhitespace && $0 != "_" && $0 != "." }
         guard !cleaned.isEmpty else { return nil }
@@ -26,32 +26,32 @@ enum NumberParser {
         return result
     }
 
-    /// Schreibt einen Wert als Ziffernfolge der angegebenen Basis (Großbuchstaben).
+    /// Writes a value as a digit string in the given radix (uppercase).
     static func format(_ value: UInt64, base: NumberBase) -> String {
         String(value, radix: base.radix, uppercase: true)
     }
 
-    /// Wie `format(_:base:)`, aber mit Blöcken für die Lesbarkeit –
-    /// Binärzahlen werden in Vierergruppen (Nibbles) getrennt.
+    /// Like `format(_:base:)`, but split into blocks for readability –
+    /// binary numbers are grouped into nibbles.
     static func formatGrouped(_ value: UInt64, base: NumberBase) -> String {
         grouped(format(value, base: base), base: base)
     }
 
-    /// Fügt in eine bereits fertige Ziffernfolge die Trennzeichen ein.
+    /// Inserts the separators into an already formatted digit string.
     static func grouped(_ digits: String, base: NumberBase) -> String {
         guard let size = base.groupSize, digits.count > size else { return digits }
         let total = digits.count
         var result = ""
         for (index, character) in digits.enumerated() {
             if index > 0, (total - index) % size == 0 {
-                result.append("\u{2009}") // schmales Leerzeichen
+                result.append("\u{2009}") // thin space
             }
             result.append(character)
         }
         return result
     }
 
-    /// Anzahl der Stellen, die der Wert in dieser Basis benötigt.
+    /// How many digits the value needs in this radix.
     static func digitCount(_ value: UInt64, base: NumberBase) -> Int {
         format(value, base: base).count
     }

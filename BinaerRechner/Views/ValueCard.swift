@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Ein Eingabefeld der Vorlage: Beschriftung, Wert und farbig hinterlegt.
+/// One input field from the reference page: caption, value, tinted background.
 struct ValueCard: View {
     let base: NumberBase
     let text: String

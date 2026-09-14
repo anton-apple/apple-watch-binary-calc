@@ -1,7 +1,7 @@
 import WatchKit
 
-/// Kurze Rückmeldungen am Handgelenk – ohne Haptik fühlt sich das Tastenfeld
-/// auf der Uhr tot an.
+/// Short feedback on the wrist – without haptics the keypad feels dead
+/// on a watch.
 enum Haptics {
     static func tap() {
         WKInterfaceDevice.current().play(.click)

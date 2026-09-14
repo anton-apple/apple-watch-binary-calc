@@ -1,7 +1,7 @@
 import SwiftUI
 
-/// Hauptbildschirm: alle vier Schreibweisen untereinander, darunter der
-/// Rechenweg. Ein Tipp auf ein Feld öffnet das passende Tastenfeld.
+/// Main screen: all four notations stacked, with the worked example below.
+/// Tapping a field opens the matching keypad.
 struct ConverterView: View {
     @State private var model = ConverterModel()
 

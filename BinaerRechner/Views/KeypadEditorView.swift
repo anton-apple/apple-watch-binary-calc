@@ -1,10 +1,10 @@
 import SwiftUI
 
-/// Eingabe für ein Zahlensystem: Ziffernfeld, Schrittweite über die Digital
-/// Crown bzw. die Tasten − und +, plus Sofortvorschau der anderen Systeme.
+/// Input for one number system: a keypad, stepping via the Digital Crown or
+/// the − and + buttons, plus a live preview of the other systems.
 ///
-/// Bearbeitet wird direkt der gemeinsame Wert – eine angehängte Ziffer ist
-/// nichts anderes als „Wert · Basis + Ziffer“.
+/// This edits the shared value directly – appending a digit is nothing but
+/// "value · radix + digit".
 struct KeypadEditorView: View {
     let base: NumberBase
     let model: ConverterModel
@@ -25,7 +25,7 @@ struct KeypadEditorView: View {
         .navigationTitle(base.name)
     }
 
-    // MARK: - Bausteine
+    // MARK: - Building blocks
 
     private var currentValue: some View {
         Text(model.displayText(for: base))
@@ -100,7 +100,7 @@ struct KeypadEditorView: View {
         }
     }
 
-    /// Die drei anderen Schreibweisen als Sofortvorschau.
+    /// The three other notations as a live preview.
     private var preview: some View {
         VStack(alignment: .leading, spacing: 1) {
             ForEach(NumberBase.displayOrder.filter { $0 != base }) { other in
@@ -125,7 +125,7 @@ struct KeypadEditorView: View {
         Array(repeating: GridItem(.flexible(), spacing: 4), count: base.keypadColumns)
     }
 
-    // MARK: - Aktionen
+    // MARK: - Actions
 
     private func append(_ digit: Character) {
         if model.appendDigit(digit, in: base) {

@@ -1,7 +1,7 @@
 import Foundation
 
-/// Hoch- und tiefgestellte Ziffern für die mathematische Schreibweise,
-/// z. B. „2⁴“ oder „15₁₀“.
+/// Superscript and subscript digits for mathematical notation,
+/// e.g. "2⁴" or "15₁₀".
 enum UnicodeNotation {
     private static let superscriptDigits: [Character] = ["⁰", "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹"]
     private static let subscriptDigits: [Character] = ["₀", "₁", "₂", "₃", "₄", "₅", "₆", "₇", "₈", "₉"]

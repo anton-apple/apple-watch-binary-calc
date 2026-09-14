@@ -1,8 +1,8 @@
 import Foundation
 import Observation
 
-/// Hält den aktuellen Wert. Alle vier Zahlensysteme sind nur unterschiedliche
-/// Schreibweisen desselben Werts, deshalb genügt eine einzige Quelle.
+/// Holds the current value. The four number systems are only different
+/// notations for the same value, so a single source is enough.
 @Observable
 final class ConverterModel {
     private static let storageKey = "de.binaerrechner.lastValue"
@@ -20,12 +20,12 @@ final class ConverterModel {
         }
     }
 
-    /// Ziffernfolge für die Anzeige (Binärzahlen in Vierergruppen).
+    /// Digit string for display (binary numbers grouped into nibbles).
     func displayText(for base: NumberBase) -> String {
         NumberParser.formatGrouped(value, base: base)
     }
 
-    /// Ziffernfolge ohne Trennzeichen – so wird sie bearbeitet.
+    /// Digit string without separators – this is what gets edited.
     func rawText(for base: NumberBase) -> String {
         NumberParser.format(value, base: base)
     }
@@ -40,7 +40,7 @@ final class ConverterModel {
         persist()
     }
 
-    /// Übernimmt eine Eingabe, wenn sie in der Basis gültig ist.
+    /// Accepts an input if it is valid in the given radix.
     @discardableResult
     func update(from text: String, base: NumberBase) -> Bool {
         guard let parsed = NumberParser.parse(text, base: base) else { return false }
@@ -48,8 +48,8 @@ final class ConverterModel {
         return true
     }
 
-    /// Erhöht oder verringert den Wert um 1 und bleibt dabei im gültigen Bereich.
-    /// - Returns: `false`, wenn die Grenze (0 bzw. `UInt64.max`) bereits erreicht war.
+    /// Raises or lowers the value by 1, staying inside the valid range.
+    /// - Returns: `false` if the limit (0 or `UInt64.max`) was already reached.
     @discardableResult
     func step(by delta: Int) -> Bool {
         let magnitude = UInt64(delta.magnitude)
@@ -67,10 +67,10 @@ final class ConverterModel {
         return true
     }
 
-    /// Hängt eine Ziffer an die Darstellung in `base` an – das ist genau eine
-    /// Multiplikation mit der Basis plus dem Ziffernwert.
-    /// - Returns: `false`, wenn die Ziffer nicht in die Basis passt oder der
-    ///   Wertebereich überschritten würde.
+    /// Appends a digit to the notation in `base` – which is exactly a
+    /// multiplication by the radix plus the digit's value.
+    /// - Returns: `false` if the digit does not fit the radix or the value
+    ///   range would be exceeded.
     @discardableResult
     func appendDigit(_ digit: Character, in base: NumberBase) -> Bool {
         guard let digitValue = digit.hexDigitValue, digitValue < base.radix else { return false }
@@ -83,7 +83,7 @@ final class ConverterModel {
         return true
     }
 
-    /// Entfernt die letzte Stelle der Darstellung in `base`.
+    /// Drops the last digit of the notation in `base`.
     @discardableResult
     func removeLastDigit(in base: NumberBase) -> Bool {
         guard value > 0 else { return false }
