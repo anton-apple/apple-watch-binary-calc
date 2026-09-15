@@ -48,7 +48,15 @@ open BinaerRechner.xcodeproj
 3. ⌘R.
 
 To run on real hardware, set your team under *Signing & Capabilities* in Xcode
-and change the bundle identifier `de.beispiel.BinaerRechner` to one of your own.
+and change the bundle identifiers to your own — the app's
+(`de.beispiel.BinaerRechner.sch.hnvr`) and the complication's
+(`de.beispiel.BinaerRechner.sch.hnvr.Complication`), keeping the extension's
+identifier equal to the app's plus `.Complication`. With a free "Personal
+Team" account, Apple limits new App ID registrations to 10 per rolling 7-day
+window — if every identifier you try fails with "cannot be registered ...
+because it is not available", you likely hit that limit rather than a real
+naming collision; running on the Watch **simulator** needs no registration at
+all and sidesteps this entirely.
 
 ### Requirements
 
